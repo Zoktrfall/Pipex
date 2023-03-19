@@ -89,12 +89,18 @@ char	*replace_str(int fd, char *ptr, char *str)
 	return (str);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, int check)
 {
 	static char	*str;
 	char		*ptr;
 
 	ptr = NULL;
+	if (check == 1)
+	{
+		if (str != NULL)
+			free(str);
+		return (0);
+	}
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
 	str = replace_str(fd, ptr, str);

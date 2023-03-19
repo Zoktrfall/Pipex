@@ -8,7 +8,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-char	*get_next_line(int fd);
+char	*get_next_line(int fd, int check);
 char	*replace_str(int fd, char *ptr, char *str);
 char	*new_str(char *str);
 char	*new_ptr(char *str);
