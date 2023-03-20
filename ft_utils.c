@@ -79,3 +79,26 @@ char	*ft_strjoin(char *str1, char *str2)
 	ptr[j] = '\0';
 	return (ptr);
 }
+
+char	**creat_path(char **envp)
+{
+	char		**path;
+	size_t		i;
+	char		*tmp;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (!ft_strncmp("PATH", envp[i], 4))
+		{
+			tmp = ft_strdup(envp[i]);
+			tmp[3] = '.';
+			tmp[4] = ':';
+			path = ft_split(tmp + 3, ':');
+		}
+		i++;
+	}
+	for(int j = 0; path[j]; j++)
+		printf("%s\n", path[j]);
+	return (path);
+}

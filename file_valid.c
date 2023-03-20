@@ -2,8 +2,8 @@
 
 int	file_valid(int argc, char **argv, size_t *flag_heredoc)
 {
-	int			fd;
 	char		*buffer;
+	int			fd;
 
 	if (!ft_strcmp(argv[1], "here_doc", 0))
 		*flag_heredoc = 1;
@@ -17,9 +17,9 @@ int	file_valid(int argc, char **argv, size_t *flag_heredoc)
 			if (!ft_strcmp(buffer, argv[2], 1))
 				break ;
 			ft_putstr_fd(buffer, fd);
+			free(buffer);
 		}
 		get_next_line(0, 1);
-		free(buffer);
 	}
 	if (!access(argv[argc - 1], F_OK) && access(argv[argc - 1], W_OK))
 		return (1);
