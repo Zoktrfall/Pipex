@@ -98,7 +98,5 @@ char	**creat_path(char **envp)
 		}
 		i++;
 	}
-	for(int j = 0; path[j]; j++)
-		printf("%s\n", path[j]);
 	return (path);
 }

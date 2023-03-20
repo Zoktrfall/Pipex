@@ -11,78 +11,81 @@ int error_file(int index, char **argv, int number, int output)
 	char	*error;
 
 	error = strerror(number);
-	ft_putstr_fd("zsh: ", 2);
-	ft_putstr_fd(error, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(argv[index], 2);
+	ft_putstr_fd("zsh: ", output);
+	ft_putstr_fd(error, output);
+	ft_putstr_fd(": ", output);
+	ft_putstr_fd(argv[index], output);
 	write(1, "\n", 1);
 	return (1);
 }
 
-size_t		dup_file(int argc, char **argv)
+void	child_process(char *ptr, char **str, char **envp)
 {
-	int	file_write;
-	int	file_read;
-	int	flag_heredoc;
-
-	if (!ft_strcmp(argv[1], "here_doc", 0))
-		file_write = open(argv[argc - 1], O_CREAT | O_WRONLY | O_APPEND, 00755);
-	else
-		file_write = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 00755);
-	if (ft_strcmp(argv[1], "here_doc", 0))
+	int fd[2];
+	pid_t pid;
+	pipe(fd);
+	pid = fork();
+	if(pid != 0)
 	{
-		if (access((argv[1]), F_OK))
-		{
-			error_file(1, argv, 2, 0);
-			return (2);
-		}
-		if (access((argv[1]), R_OK))
-		{
-			error_file(1, argv, 13, 0);
-			return (2);
-		}
+		close(fd[1]);
+		dup2(fd[0], 0);
+		waitpid(pid, NULL, 0);
 	}
-	dup2(file_read, 0);
-	dup2(file_write, 1);
-	return (1);
+	else
+	{
+		close(fd[0]);
+		dup2(fd[1], 1);
+		execve(ptr, str, envp);
+	}
+
 }
 
-char	**search_der(char **path, char *argv)
+char	*search_der(char **path, char *argv, char **envp, char ***process)
 {
-	size_t	i;
-	char **str;
 	char *ptr;
+	size_t i;
 
 	i = 0;
-	str = ft_split(argv, ' ');
-	if (!access(str[0], X_OK))
-		return (str);
+	*process = ft_split(argv, ' ');
+	if(!access(*process[0], X_OK))
+	{
+		ptr = *process[0];
+		return (ptr);
+	}
 	while(path[i])
 	{
-		str[0] = ft_strjoin(path[i], str[0]); 
-		if (!access(str[0], X_OK))
-			return (str);
+		ptr = ft_strjoin(path[i], *process[0]);
+		if(!access(ptr, X_OK))
+			return (ptr);
 		i++;
+		free(ptr);
 	}
-	return NULL;
+	return (NULL);
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
 	char		**path;
-	size_t		flag_heredoc;
 	size_t		start;
-	char 		**str;
+	char 		**process;
+	char		*name_command;
 	
 
-	flag_heredoc = 0;
 	if (argc < 5 || (!ft_strcmp(argv[1], "here_doc", 0) && argc < 6))
 		return (error_args());
-	start = dup_file(argc, argv);
-	if (file_valid(argc, argv, &flag_heredoc))
+	start = dup_file(argc, argv, 0, 0);
+	if (file_valid(argc, argv))
 		return (error_file(argc - 1, argv, 13, 2));
 	path = creat_path(envp);
-	str = search_der(path, argv[2]);
-	execve(str[0], str, envp);
+	if(ft_strcmp(argv[1], "here_doc", 0))
+	{
+		while(start < argc - 2)
+		{
+			name_command = search_der(path, argv[start], envp, &process);
+			if(name_command != NULL)
+				execve(name_command, process, envp);
+			start++;
+		}
+	}
 	return (0);
 }
