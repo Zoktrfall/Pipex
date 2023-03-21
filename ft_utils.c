@@ -80,26 +80,24 @@ char	*ft_strjoin(char *str1, char *str2)
 	return (ptr);
 }
 
-char	**creat_path(char **envp)
+char	*ft_strdup(const char *str)
 {
-	char		**path;
-	size_t		i;
-	char		*tmp;
+	int		i;
+	int		j;
+	char	*ptr;
 
-	i = 0;
-	while (envp[i])
+	i = ft_strlen(str);
+	j = 0;
+	ptr = malloc(sizeof(char) * (i + 1));
+	if (ptr != NULL)
 	{
-		if (!ft_strncmp("PATH", envp[i], 4))
+		while (str[j] != '\0')
 		{
-			tmp = ft_strdup(envp[i]);
-			if (tmp == NULL)
-				return (NULL);
-			tmp[3] = '.';
-			tmp[4] = ':';
-			path = ft_split(tmp + 3, ':');
+			ptr[j] = str[j];
+			j++;
 		}
-		i++;
+		ptr[j] = '\0';
+		return (ptr);
 	}
-	free(tmp);
-	return (path);
+	return (NULL);
 }

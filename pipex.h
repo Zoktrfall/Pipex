@@ -14,7 +14,6 @@ int		ft_strcmp(char *str1, char *str2, int flag);
 char	**ft_split(const char *s, char c);
 char	*ft_strjoin(char *str1, char *str2);
 void	ft_putstr_fd(char *s, int fd);
-char	**creat_path(char **envp);
 char	*ft_strdup(const char *str);
 int		ft_strncmp(const char *str1, const char *str2, size_t count);
 
@@ -22,7 +21,13 @@ int		ft_strncmp(const char *str1, const char *str2, size_t count);
 int		file_valid(int argc, char **argv);
 size_t	dup_file(int argc, char **argv, int file_write, int file_read);
 
+//Pipex utils
+char	**creat_path(char **envp);
+void	child_process(char *name_command, char **process, char **envp);
+char	*search_der(char **path, char *argv, char **envp, char *process);
+
 //Error
 int		error_file(int index, char **argv, int number, int output);
+int     error_args(void);
 
 #endif
