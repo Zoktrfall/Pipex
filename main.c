@@ -29,7 +29,7 @@ void	child_process(char *ptr, char **str, char **envp)
 	{
 		close(fd[1]);
 		dup2(fd[0], 0);
-		waitpid(pid, NULL, 0);
+		wait(NULL);
 	}
 	else
 	{
@@ -37,24 +37,22 @@ void	child_process(char *ptr, char **str, char **envp)
 		dup2(fd[1], 1);
 		execve(ptr, str, envp);
 	}
-
 }
 
-char	*search_der(char **path, char *argv, char **envp, char ***process)
+char	*search_der(char **path, char *argv, char **envp, char *process)
 {
 	char *ptr;
 	size_t i;
 
 	i = 0;
-	*process = ft_split(argv, ' ');
-	if(!access(*process[0], X_OK))
+	if(!access(process, X_OK))
 	{
-		ptr = *process[0];
+		ptr = process;
 		return (ptr);
 	}
 	while(path[i])
 	{
-		ptr = ft_strjoin(path[i], *process[0]);
+		ptr = ft_strjoin(path[i], process);
 		if(!access(ptr, X_OK))
 			return (ptr);
 		i++;
@@ -76,16 +74,15 @@ int	main(int argc, char *argv[], char *envp[])
 	start = dup_file(argc, argv, 0, 0);
 	if (file_valid(argc, argv))
 		return (error_file(argc - 1, argv, 13, 2));
-	path = creat_path(envp);
-	if(ft_strcmp(argv[1], "here_doc", 0))
-	{
-		while(start < argc - 2)
-		{
-			name_command = search_der(path, argv[start], envp, &process);
-			if(name_command != NULL)
-				execve(name_command, process, envp);
-			start++;
-		}
-	}
+	
+	// while(start < argc - 1)
+	// {
+	// 	path = creat_path(envp);
+	// 	process = ft_split(argv[start], ' ');
+	// 	name_command = search_der(path, argv[start], envp, process[0]);
+	// 	execve(name_command, process, envp);
+	// 	child_process(name_command, process, envp);
+	// 	start++;
+	// }
 	return (0);
 }

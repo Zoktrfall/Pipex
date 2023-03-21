@@ -92,11 +92,14 @@ char	**creat_path(char **envp)
 		if (!ft_strncmp("PATH", envp[i], 4))
 		{
 			tmp = ft_strdup(envp[i]);
+			if (tmp == NULL)
+				return (NULL);
 			tmp[3] = '.';
 			tmp[4] = ':';
 			path = ft_split(tmp + 3, ':');
 		}
 		i++;
 	}
+	free(tmp);
 	return (path);
 }
