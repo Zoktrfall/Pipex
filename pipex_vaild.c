@@ -8,7 +8,7 @@ int	file_valid(int argc, char **argv)
 
 	if (!ft_strcmp(argv[1], "here_doc", 0))
 	{
-		fd = open("._here_doc", O_WRONLY | O_CREAT, 0755);
+		fd = open("._here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0755);
 		while (1)
 		{
 			write(0, "pipe heredoc> ", 14);
@@ -24,6 +24,7 @@ int	file_valid(int argc, char **argv)
 		return (1);
 	fd_read = open("._here_doc", O_RDONLY);
 	dup2(fd_read, 0);
+	unlink("._here_doc");
 	return (0);
 }
 
@@ -49,5 +50,7 @@ size_t	dup_file(int argc, char **argv, int file_write, int file_read)
 		dup2(file_read, 0);
 	}
 	dup2(file_write, 1);
+	if (!ft_strcmp(argv[1], "here_doc", 0))
+		return (3);
 	return (2);
 }

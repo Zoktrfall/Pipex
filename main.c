@@ -74,15 +74,9 @@ int	main(int argc, char *argv[], char *envp[])
 	start = dup_file(argc, argv, 0, 0);
 	if (file_valid(argc, argv))
 		return (error_file(argc - 1, argv, 13, 2));
-	
-	// while(start < argc - 1)
-	// {
-	// 	path = creat_path(envp);
-	// 	process = ft_split(argv[start], ' ');
-	// 	name_command = search_der(path, argv[start], envp, process[0]);
-	// 	execve(name_command, process, envp);
-	// 	child_process(name_command, process, envp);
-	// 	start++;
-	// }
+	path = creat_path(envp);
+	process = ft_split(argv[start], ' ');
+	name_command = search_der(path, argv[start], envp, process[0]);
+	execve(name_command, process, envp);
 	return (0);
 }
