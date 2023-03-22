@@ -75,3 +75,17 @@ char	**creat_path(char **envp)
 		exit(1);
 	return (path);
 }
+
+int	pipex_check(char **argv)
+{
+	size_t	i;
+
+	i = 0;
+	while (argv[i])
+	{
+		if (ft_strlen(argv[i]) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}

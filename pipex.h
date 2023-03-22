@@ -29,6 +29,7 @@ char	*search_der(char **path, char *argv, char **envp, char *process);
 //Error
 int		error_file(int index, char **argv, int number, int output);
 int		error_args(void);
+int		error_pipex(void);
 
 //Free
 void	free_dm(char ***str);

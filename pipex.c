@@ -22,7 +22,6 @@ int	ft_pipex(int argc, char **argv, size_t start, char **envp)
 			break ;
 		child_process(name_command, process, envp);
 		free_all(path, process, name_command);
-		system("leaks a.out");
 	}
 	if (!access(argv[argc - 1], F_OK) && access(argv[argc - 1], W_OK))
 		return (error_file(argc - 1, argv, 13, 2));
@@ -33,6 +32,8 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	size_t		start;
 
+	if (pipex_check(argv))
+		return (error_pipex());
 	if (argc < 5 || (!ft_strcmp(argv[1], "here_doc", 0) && argc < 6))
 		return (error_args());
 	start = dup_file(argc, argv, 0, 0);
