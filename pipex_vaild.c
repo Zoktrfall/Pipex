@@ -37,11 +37,13 @@ size_t	dup_file(int argc, char **argv, int file_write, int file_read)
 		if (access((argv[1]), F_OK))
 		{
 			error_file(1, argv, 2, 0);
+			dup2(file_write, 1);
 			return (2);
 		}
 		if (access((argv[1]), R_OK))
 		{
 			error_file(1, argv, 13, 0);
+			dup2(file_write, 1);
 			return (2);
 		}
 		file_read = open(argv[1], O_RDONLY);

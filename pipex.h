@@ -30,4 +30,8 @@ char	*search_der(char **path, char *argv, char **envp, char *process);
 int		error_file(int index, char **argv, int number, int output);
 int		error_args(void);
 
+//Free
+void	free_dm(char ***str);
+void	free_all(char **path, char **process, char *name_comand);
+
 #endif

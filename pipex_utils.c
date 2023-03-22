@@ -35,6 +35,11 @@ char	*search_der(char **path, char *argv, char **envp, char *process)
 	while (path[i])
 	{
 		ptr = ft_strjoin(path[i], process);
+		if (ptr == NULL)
+		{
+			free_dm(&path);
+			exit(1);
+		}
 		if (!access(ptr, X_OK))
 			return (ptr);
 		i++;
@@ -50,6 +55,7 @@ char	**creat_path(char **envp)
 	char		*tmp;
 
 	i = 0;
+	path = NULL;
 	while (envp[i])
 	{
 		if (!ft_strncmp("PATH", envp[i], 4))
@@ -60,9 +66,12 @@ char	**creat_path(char **envp)
 			tmp[3] = '.';
 			tmp[4] = ':';
 			path = ft_split(tmp + 3, ':');
+			break ;
 		}
 		i++;
 	}
 	free(tmp);
+	if (path == NULL)
+		exit(1);
 	return (path);
 }
