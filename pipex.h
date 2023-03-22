@@ -18,7 +18,7 @@ char	*ft_strdup(const char *str);
 int		ft_strncmp(const char *str1, const char *str2, size_t count);
 
 //Validation
-int		file_valid(int argc, char **argv);
+void	here_doc(int argc, char **argv);
 size_t	dup_file(int argc, char **argv, int file_write, int file_read);
 
 //Pipex utils

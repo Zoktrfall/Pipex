@@ -1,31 +1,29 @@
 #include "pipex.h"
 
-int	file_valid(int argc, char **argv)
+void	here_doc(int argc, char **argv)
 {
 	char		*buffer;
 	int			fd;
+	int			i;
 	int			fd_read;
 
-	if (!ft_strcmp(argv[1], "here_doc", 0))
+	fd = open("._here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0755);
+	while (1)
 	{
-		fd = open("._here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0755);
-		while (1)
-		{
-			write(0, "pipe heredoc> ", 14);
-			buffer = get_next_line(0, 0);
-			if (!ft_strcmp(buffer, argv[2], 1))
-				break ;
-			ft_putstr_fd(buffer, fd);
-			free(buffer);
-		}
-		get_next_line(0, 1);
+		i = 2;
+		while (++i < argc - 2)
+			write(0, "pipe ", 5);
+		write(0, "heredoc> ", 9);
+		buffer = get_next_line(0, 0);
+		if (!ft_strcmp(buffer, argv[2], 1))
+			break ;
+		ft_putstr_fd(buffer, fd);
+		free(buffer);
 	}
-	if (!access(argv[argc - 1], F_OK) && access(argv[argc - 1], W_OK))
-		return (1);
+	get_next_line(0, 1);
 	fd_read = open("._here_doc", O_RDONLY);
 	dup2(fd_read, 0);
 	unlink("._here_doc");
-	return (0);
 }
 
 size_t	dup_file(int argc, char **argv, int file_write, int file_read)
