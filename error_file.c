@@ -22,9 +22,3 @@ int	error_file(int index, char **argv, int number, int output)
 	write(output, "\n", 1);
 	return (1);
 }
-
-int	error_pipex(void)
-{
-	write(1, "zsh: parse error near `|'\n", 26);
-	return (0);
-}

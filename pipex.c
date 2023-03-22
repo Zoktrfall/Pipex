@@ -1,6 +1,6 @@
 #include "pipex.h"
 
-int	ft_pipex(int argc, char **argv, size_t start, char **envp)
+int	ft_pipex(int argc, char **argv, int start, char **envp)
 {
 	char		**process;
 	char		*name_command;
@@ -15,7 +15,7 @@ int	ft_pipex(int argc, char **argv, size_t start, char **envp)
 			free_dm(&path);
 			exit(1);
 		}
-		name_command = search_der(path, argv[start], envp, process[0]);
+		name_command = search_der(path, process, NULL, -1);
 		if (name_command == NULL)
 			error_file(start, argv, 404, 2);
 		if (start == argc - 2)
@@ -32,8 +32,6 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	size_t		start;
 
-	if (pipex_check(argv))
-		return (error_pipex());
 	if (argc < 5 || (!ft_strcmp(argv[1], "here_doc", 0) && argc < 6))
 		return (error_args());
 	start = dup_file(argc, argv, 0, 0);

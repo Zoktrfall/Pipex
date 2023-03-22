@@ -20,5 +20,9 @@ void	free_all(char **path, char **process, char *name_comand)
 {
 	free_dm(&path);
 	free_dm(&process);
-	free(name_comand);
+	if (name_comand != NULL)
+	{
+		free(name_comand);
+		name_comand = NULL;
+	}
 }

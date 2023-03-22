@@ -24,12 +24,11 @@ size_t	dup_file(int argc, char **argv, int file_write, int file_read);
 //Pipex utils
 char	**creat_path(char **envp);
 void	child_process(char *name_command, char **process, char **envp);
-char	*search_der(char **path, char *argv, char **envp, char *process);
+char	*search_der(char **path, char **process, char *ptr, size_t i);
 
 //Error
 int		error_file(int index, char **argv, int number, int output);
 int		error_args(void);
-int		error_pipex(void);
 
 //Free
 void	free_dm(char ***str);

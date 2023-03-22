@@ -11,7 +11,7 @@ void	child_process(char *name_command, char **process, char **envp)
 	{
 		close(fd[1]);
 		dup2(fd[0], 0);
-		wait(NULL);
+		waitpid(pid, NULL, 0);
 	}
 	else
 	{
@@ -21,20 +21,34 @@ void	child_process(char *name_command, char **process, char **envp)
 	}
 }
 
-char	*search_der(char **path, char *argv, char **envp, char *process)
+char	*malloc_empty(char **path, char **process)
 {
 	char	*ptr;
-	size_t	i;
 
-	i = 0;
-	if (!access(process, X_OK))
+	ptr = ft_strdup("");
+	if (ptr == NULL)
 	{
-		ptr = process;
+		free_all(path, process, NULL);
+		exit(1);
+	}
+	return (ptr);
+}
+
+char	*search_der(char **path, char **process, char *ptr, size_t i)
+{
+	if (process[0] == NULL)
+	{
+		ptr = malloc_empty(path, process);
 		return (ptr);
 	}
-	while (path[i])
+	if (!access(process[0], X_OK))
 	{
-		ptr = ft_strjoin(path[i], process);
+		ptr = process[0];
+		return (ptr);
+	}
+	while (path[++i])
+	{
+		ptr = ft_strjoin(path[i], process[0]);
 		if (ptr == NULL)
 		{
 			free_dm(&path);
@@ -42,7 +56,6 @@ char	*search_der(char **path, char *argv, char **envp, char *process)
 		}
 		if (!access(ptr, X_OK))
 			return (ptr);
-		i++;
 		free(ptr);
 	}
 	return (NULL);
@@ -55,6 +68,7 @@ char	**creat_path(char **envp)
 	char		*tmp;
 
 	i = 0;
+	tmp = NULL;
 	path = NULL;
 	while (envp[i])
 	{
@@ -74,18 +88,4 @@ char	**creat_path(char **envp)
 	if (path == NULL)
 		exit(1);
 	return (path);
-}
-
-int	pipex_check(char **argv)
-{
-	size_t	i;
-
-	i = 0;
-	while (argv[i])
-	{
-		if (ft_strlen(argv[i]) == 0)
-			return (1);
-		i++;
-	}
-	return (0);
 }
