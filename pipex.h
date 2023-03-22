@@ -25,6 +25,7 @@ size_t	dup_file(int argc, char **argv, int file_write, int file_read);
 char	**creat_path(char **envp);
 void	child_process(char *name_command, char **process, char **envp);
 char	*search_der(char **path, char **process, char *ptr, size_t i);
+void	creat_tmp_read_file(int file_read, int file_write);
 
 //Error
 int		error_file(int index, char **argv, int number, int output);
