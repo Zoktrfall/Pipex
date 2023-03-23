@@ -24,7 +24,7 @@ int	ft_pipex(int argc, char **argv, int start, char **envp)
 		free_all(path, process, name_command);
 	}
 	if (!access(argv[argc - 1], F_OK) && access(argv[argc - 1], W_OK))
-		return (error_file(argc - 1, argv, 13, 2));
+		exit(error_file(argc - 1, argv, 13, 2));
 	unlink("./open_read_tmp");
 	exit(execve(name_command, process, envp));
 }

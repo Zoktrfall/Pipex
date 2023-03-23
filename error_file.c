@@ -18,7 +18,8 @@ int	error_file(int index, char **argv, int number, int output)
 	ft_putstr_fd(error, output);
 	if (number != 404)
 		ft_putstr_fd(": ", output);
-	ft_putstr_fd(argv[index], output);
+	if (argv != NULL)
+		ft_putstr_fd(argv[index], output);
 	write(output, "\n", 1);
-	return (1);
+	return (output);
 }

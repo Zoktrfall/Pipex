@@ -20,6 +20,7 @@ void	here_doc(int argc, char **argv)
 		ft_putstr_fd(buffer, fd);
 		free(buffer);
 	}
+	free(buffer);
 	get_next_line(0, 1);
 	fd_read = open("._here_doc", O_RDONLY);
 	dup2(fd_read, 0);

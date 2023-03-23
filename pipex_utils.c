@@ -39,6 +39,7 @@ char	*search_der(char **path, char **process, char *ptr, size_t i)
 	if (process[0] == NULL)
 	{
 		ptr = malloc_empty(path, process);
+		error_file(1, NULL, 13, 2);
 		return (ptr);
 	}
 	if (!access(process[0], X_OK))
