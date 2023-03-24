@@ -34,7 +34,7 @@ int	main(int argc, char *argv[], char *envp[])
 	size_t		start;
 
 	if (argc < 5 || (!ft_strcmp(argv[1], "here_doc", 0) && argc < 6))
-		return (error_args());
+		return (1);
 	start = dup_file(argc, argv, 0, 0);
 	if (!ft_strcmp(argv[1], "here_doc", 0))
 		here_doc(argc, argv);

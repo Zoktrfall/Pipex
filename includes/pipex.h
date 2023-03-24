@@ -29,7 +29,6 @@ void	creat_tmp_read_file(int file_read, int file_write);
 
 //Error
 int		error_file(int index, char **argv, int number, int output);
-int		error_args(void);
 
 //Free
 void	free_dm(char ***str);
